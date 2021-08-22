@@ -110,12 +110,12 @@
     </target>    
     
     <target name="-post-compile">
-        <copy file="lib/mssql-jdbc_auth-9.2.0.x64.dll" todir="${dist.dir}"/>
+        <copy file="lib/mssql-jdbc_auth-9.4.0.x64.dll" todir="${dist.dir}"/>
 
         <copy file="SMSCenter.ico" todir="${dist.dir}"/>
 
         <!-- Copy to working dir for debugging -->
-        <copy file="lib/mssql-jdbc_auth-9.2.0.x64.dll" todir="${work.dir}"/>
+        <copy file="lib/mssql-jdbc_auth-9.4.0.x64.dll" todir="${work.dir}"/>
     </target>
     
 </project>
