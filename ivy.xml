@@ -15,7 +15,7 @@
         <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc_auth -->
         <dependency org="com.microsoft.sqlserver" name="mssql-jdbc_auth" rev="9.4.0.x64" conf="runtime->default"/>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.30"/>
+        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.32"/>
         <!-- https://mvnrepository.com/artifact/org.jsmpp/jsmpp -->
         <dependency org="org.jsmpp" name="jsmpp" rev="2.3.11"/>
         
