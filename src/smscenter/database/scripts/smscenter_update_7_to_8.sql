@@ -1,3 +1,7 @@
+DROP TRIGGER [dbo].[stSmsUpdateTrigger]
+
+GO
+
 CREATE TRIGGER [dbo].[stSmsUpdateTrigger] ON [dbo].[StRec] FOR UPDATE AS
 	DECLARE @updateCursor CURSOR 
 	DECLARE @stID INT
@@ -36,8 +40,4 @@ CREATE TRIGGER [dbo].[stSmsUpdateTrigger] ON [dbo].[StRec] FOR UPDATE AS
 	
 	CLOSE @updateCursor
 	DEALLOCATE @updateCursor
-
-
 GO
-
-

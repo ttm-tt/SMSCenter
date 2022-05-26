@@ -2070,7 +2070,7 @@ public class Database {
     }
     
     // If you change current version update smscenter_settings, too
-    final int CURRENT_VERSION = 7;
+    final int CURRENT_VERSION = 8;
             
     synchronized public boolean initializeDatabase(Properties props) {
         Connection conn = null;
