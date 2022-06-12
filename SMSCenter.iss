@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=SMSCenter
-AppVerName=SMSCenter 20.11
+AppVerName=SMSCenter 22.06
 AppPublisher=Christoph Theis
-DefaultDirName={pf}\TTM
+DefaultDirName={autopf}\TTM
 DefaultGroupName=TTM
 OutputDir=.\Output
-OutputBaseFilename=setup
-MinVersion= 0,6.0
+OutputBaseFilename=install
+MinVersion= 0,6.1
 
 ; Sign installer
 ; SignTool=MS /d $qTTM Installer$q $f
