@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=SMSCenter
-AppVerName=SMSCenter 22.06
+AppVerName=SMSCenter 22.06.01
 AppPublisher=Christoph Theis
 DefaultDirName={autopf}\TTM
 DefaultGroupName=TTM
