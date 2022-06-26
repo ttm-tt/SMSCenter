@@ -529,26 +529,28 @@ public class Database extends Interface<Integer>
 	{
 		if (dbCon == null)
 		{
-                        String database = getProperty("database");
+                        String dbName = getProperty("database");
                         String server = getProperty("server");
                         boolean windowsAuth = getProperty("windowsAuth").equals("yes");
                         String user = getProperty("user");
                         String pwd = getProperty("password");
 
                         StringBuilder sb = new StringBuilder();
-                        sb.append("jdbc:jtds:sqlserver://");
+                        sb.append("jdbc:sqlserver://");
                         if (server.equals("(local)"))
                             sb.append("localhost");
                         else
                             sb.append(server);
-                        sb.append("/");
+                        sb.append(";");
 
-                        String[] tmp = database.split("\\\\");
-                        sb.append(tmp[0]).append(";");
-                        if (tmp.length > 1)
-                            sb.append("instance=").append(tmp[1]).append(";");
+                        String[] database = dbName.split("\\\\");
+                        sb.append("databaseName=").append(database[0]).append(";");
+                        if (database.length > 1)
+                            sb.append("instanceName=").append(database[1]).append(";");
 
-                        if (!windowsAuth)
+                        if (windowsAuth)
+                            sb.append("integratedSecurity=true;");
+                        else
                             sb.append("user=").append(user).append(";").append("password=").append(pwd).append(";");
 
                         String url = sb.toString();
