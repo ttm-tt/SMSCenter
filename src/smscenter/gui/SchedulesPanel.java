@@ -219,7 +219,7 @@ public class SchedulesPanel extends BasePanel {
             // SMS senden, wenn Spiel innerhalb 30 Minuten beginnt 
             // oder am naechsten Tag ist. Ansonsten erstmal stehen lassen
             if ( mt.plA == null || mt.plA.plNr <= 0 || mt.plX == null || mt.plX.plNr <= 0 || 
-                 mt.mtDateTime.getHours() == 0 && mt.mtDateTime.getMinutes() == 0 || mt.mtTable == 0 ) {
+                 (mt.mtDateTime.getHours() == 0 && mt.mtDateTime.getMinutes() == 0) || mt.mtTable == 0 ) {
                 if ( mt.mtDateTime.getTime() > System.currentTimeMillis() + 2 * reminderCuttoff &&
                      compareDays(mt.mtDateTime, today) == 0 ) {
                     toDelete.remove(mt.scsID);
