@@ -614,6 +614,9 @@ public class PhonePanel extends BasePanel {
                         if (fields.length < 2)
                             continue;
                         
+                        if (fields[0].isEmpty() || fields[1].isEmpty())
+                            continue;
+                        
                         int startNr = 0;
                         try {
                             startNr = Integer.parseInt(fields[0]);
