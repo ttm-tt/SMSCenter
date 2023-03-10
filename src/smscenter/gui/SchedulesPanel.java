@@ -270,9 +270,9 @@ public class SchedulesPanel extends BasePanel {
             if (messageX != null)
                 messageX = sendTime + "\n" + messageX;
             
-            if (messageA != null && !sponsorLine.isEmpty())
+            if (messageA != null && sponsorLine != null && !sponsorLine.isEmpty())
                 messageA += "\n" + sponsorLine;
-            if (messageX != null && !sponsorLine.isEmpty())
+            if (messageX != null && sponsorLine != null && !sponsorLine.isEmpty())
                 messageX += "\n" + sponsorLine;
             
             // System.out.println(message);
