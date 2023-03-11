@@ -129,7 +129,8 @@ public class PositionsPanel extends BasePanel {
         
             String sponsorLine = database.getSponsorLine();
             
-            if (groupMessage != null && !sponsorLine.isEmpty())
+            if (groupMessage != null && sponsorLine != null &&
+                   !sponsorLine.isEmpty())
                 groupMessage += "\n" + sponsorLine;
             
             // System.out.println(groupMessage);
