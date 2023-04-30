@@ -132,7 +132,7 @@ public class ResultsPanel extends BasePanel {
                 resultMessage = sendTime + "\n" + resultMessage;
         
             String sponsorLine = database.getSponsorLine();
-            if (resultMessage != null && !sponsorLine.isEmpty())
+            if (resultMessage != null && sponsorLine != null && !sponsorLine.isEmpty())
                 resultMessage += "\n" + sponsorLine;
             
             // System.out.println(resultMessage);
