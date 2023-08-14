@@ -29,6 +29,23 @@ public class Database {
     private Connection connection = null;
     private String connectString = null;
     private boolean validConnection = false;
+    
+    public static boolean testConnection(String connectString) {
+        if (connectString == null)
+            return false;
+        
+        if (connectString.isEmpty())
+            return false;
+        
+        try (Connection conn = DriverManager.getConnection(connectString)) {
+            return conn != null;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return false;
+    }
+    
         
     public Database() {
         
@@ -46,7 +63,7 @@ public class Database {
         
         StringBuilder sb = new StringBuilder();
         sb.append("jdbc:sqlserver://");
-        if (settings.getServer().equals("(local)"))
+        if (settings.getServer().equalsIgnoreCase("(local)"))
             sb.append("localhost");
         else
             sb.append(settings.getServer());
@@ -58,7 +75,7 @@ public class Database {
             sb.append("instanceName=").append(database[1]).append(";");
         
         if (settings.isWindowsAuth())
-            sb.append("integratedSecurity=true;");
+            sb.append("integratedSecurity=true;trustServerCertificate=true;encrypt=true;");
         else
             sb.append("user=").append(settings.getUser()).append(";").append("password=").append(settings.getPassword()).append(";");
 

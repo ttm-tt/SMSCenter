@@ -5,6 +5,8 @@
 package smscenter.gui.settings;
 
 import java.util.Properties;
+import javax.swing.JOptionPane;
+import smscenter.database.Database;
 
 /**
  *
@@ -74,6 +76,7 @@ public class DatabaseSettingsPanel extends SettingsPanel {
         batchSizeSpinner = new javax.swing.JSpinner();
         updateOutboundOnStatusReport = new javax.swing.JCheckBox();
         passwordTextField = new javax.swing.JPasswordField();
+        testConnectionButton = new javax.swing.JButton();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("smscenter/gui/resources/SMSCenter"); // NOI18N
         jLabel1.setText(bundle.getString("Server:")); // NOI18N
@@ -95,9 +98,16 @@ public class DatabaseSettingsPanel extends SettingsPanel {
 
         jLabel5.setText(bundle.getString("Batch size:")); // NOI18N
 
-        batchSizeSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(50), Integer.valueOf(10), null, Integer.valueOf(10)));
+        batchSizeSpinner.setModel(new javax.swing.SpinnerNumberModel(50, 10, null, 10));
 
         updateOutboundOnStatusReport.setText(bundle.getString("Update outbound on status report")); // NOI18N
+
+        testConnectionButton.setText("Test Connection");
+        testConnectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testConnectionButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -106,6 +116,7 @@ public class DatabaseSettingsPanel extends SettingsPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(testConnectionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -117,7 +128,7 @@ public class DatabaseSettingsPanel extends SettingsPanel {
                                 .addGap(28, 28, 28)
                                 .addComponent(userTextField))
                             .addComponent(serverTextField)
-                            .addComponent(databaseTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                            .addComponent(databaseTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(windowsAuthenticationCheckBox)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -161,7 +172,9 @@ public class DatabaseSettingsPanel extends SettingsPanel {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(updateOutboundOnStatusReport)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(testConnectionButton)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -169,6 +182,43 @@ public class DatabaseSettingsPanel extends SettingsPanel {
         userTextField.setEnabled(!windowsAuthenticationCheckBox.isSelected());
         passwordTextField.setEnabled(!windowsAuthenticationCheckBox.isSelected());
     }//GEN-LAST:event_windowsAuthenticationCheckBoxActionPerformed
+
+    private void testConnectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testConnectionButtonActionPerformed
+        String server = serverTextField.getText();
+        String dbName = databaseTextField.getText();
+        boolean windowsAuth = windowsAuthenticationCheckBox.isSelected();
+        String user = userTextField.getText();
+        String pwd = new String(passwordTextField.getPassword());
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("jdbc:sqlserver://");
+        if (server.equalsIgnoreCase("(local)"))
+            sb.append("localhost");
+        else
+            sb.append(server);
+        sb.append(";");
+        
+        String[] db = dbName.split("\\\\");
+        sb.append("databaseName=").append(db[0]).append(";");
+        if (db.length > 1)
+            sb.append("instanceName=").append(db[1]).append(";");
+        
+        if (windowsAuth)
+            sb.append("integratedSecurity=true;trustServerCertificate=true;encrypt=true;");
+        else
+            sb.append("user=").append(user).append(";").append("password=").append(pwd).append(";");
+        
+        String connectString = sb.toString();
+
+        if (Database.testConnection(connectString)) {
+            JOptionPane.showMessageDialog(
+                this, "Database connection test successfull", "Connection Successful", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(
+                this, "Database connection test failed", "Connection Failure", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_testConnectionButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner batchSizeSpinner;
@@ -180,6 +230,7 @@ public class DatabaseSettingsPanel extends SettingsPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JTextField serverTextField;
+    private javax.swing.JButton testConnectionButton;
     private javax.swing.JCheckBox updateOutboundOnStatusReport;
     private javax.swing.JTextField userTextField;
     private javax.swing.JCheckBox windowsAuthenticationCheckBox;
