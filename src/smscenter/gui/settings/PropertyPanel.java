@@ -55,7 +55,7 @@ public class PropertyPanel extends javax.swing.JPanel {
                 @Override
                 public void setValueAt(Object value, int row, int col) {
                     if (rows.get(row)[col] instanceof Integer)
-                        rows.get(row)[col] = new Integer(value.toString());
+                        rows.get(row)[col] = Integer.valueOf(value.toString());
                     else
                         rows.get(row)[col] = value;
                     fireTableCellUpdated(row, col);
