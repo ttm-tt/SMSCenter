@@ -537,7 +537,7 @@ public class Database extends Interface<Integer>
 
                         StringBuilder sb = new StringBuilder();
                         sb.append("jdbc:sqlserver://");
-                        if (server.equals("(local)"))
+                        if (server.equalsIgnoreCase("(local)"))
                             sb.append("localhost");
                         else
                             sb.append(server);
@@ -549,7 +549,7 @@ public class Database extends Interface<Integer>
                             sb.append("instanceName=").append(database[1]).append(";");
 
                         if (windowsAuth)
-                            sb.append("integratedSecurity=true;");
+                            sb.append("integratedSecurity=true;trustServerCertificate=true;encrypt=true;");
                         else
                             sb.append("user=").append(user).append(";").append("password=").append(pwd).append(";");
 
