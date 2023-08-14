@@ -3,12 +3,13 @@
 
 [Setup]
 AppName=SMSCenter
-AppVerName=SMSCenter 22.06.01
+AppVerName=SMSCenter 23.08
 AppPublisher=Christoph Theis
-DefaultDirName={autopf}\TTM
+DefaultDirName={autopf}\TTM\SMSCenter
 DefaultGroupName=TTM
 OutputDir=.\Output
 OutputBaseFilename=install
+ArchitecturesInstallIn64BitMode=x64
 MinVersion= 0,6.1
 
 ; Sign installer
@@ -74,66 +75,24 @@ begin
 	Result := jdkVersion;
 end;
 
-(* Finds path to "javaw.exe" by looking up JDK or JRE locations *)
-(* in the registry.  Ensures the file actually exists.  If none *)
-(* is found, an empty string is returned. 						          *)
-function GetJavaPath(Default: String): String;
-var
-	javaVersion: String;
-	javaHome: String;
-	path: String;
-begin
-	path := '';
-	javaVersion := getJDKVersion();
-	if (Length(javaVersion) > 0) and (javaVersion >= '11') then begin
-    if IsWin64 then begin
-  		RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JDK\' + javaVersion, 'JavaHome', javaHome)
-    end 
-    else begin
-  		RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\JDK\' + javaVersion, 'JavaHome', javaHome)
-    end;
-    if javaHome <> '' then begin
-		  path := javaHome + '\bin\' + 'javaw.exe';
-		  if not FileExists(path) then begin
-        path := '';
-		  end;
-    end;
-	end;
-  (* if we didn't find a JDK "javaw.exe", try for a JRE one *)
-	if Length(path) = 0 then begin
-		javaVersion := getJREVersion();
-	  if (Length(javaVersion) > 0) and ((javaVersion) >= '11') then begin
-      if IsWin64 then begin
-	      RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment\' + javaVersion, 'JavaHome', javaHome) 
-      end
-      else begin
-	      RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment\' + javaVersion, 'JavaHome', javaHome) 
-      end;
-      if javaHome <> '' then begin
-        path := javaHome + '\bin\' + 'javaw.exe';
-	      if not FileExists(path) then begin
-	        path := '';
-	      end;
-      end;
-    end;
-  end;
-  Result := path;
-end;
-
 (* Called on setup startup *)
 function InitializeSetup(): Boolean;
 var
-	javaPath: String;
+	javaVersion: String;
 begin
-	javaPath := GetJavaPath('');
-	if Length(javaPath) > 0 then begin
-		(* MsgBox('Found javaw.exe here: ' + javaPath, mbInformation, MB_OK); *)
+	javaVersion := GetJDKVersion();
+  if Length(javaVersion) = 0 then begin
+    javaVersion := GetJREVersion()
+  end;
+
+	if javaVersion >= '11' then begin
+		(* MsgBox('Found java version' + javaVersion, mbInformation, MB_OK); *)
 		Result := true;
 	end
 	else begin
-		MsgBox('Setup is unable to find a Java Development Kit or Java Runtime 8, or higher, installed.' + #13 +
-			     'You must have installed at least JDK or JRE, 7 or higher to continue setup.' + #13 +
-           'Please install one from http://java.sun.com and then run this setup again.', mbInformation, MB_OK);
+		MsgBox('Setup is unable to find a Java Development Kit or Java Runtime 11, or higher, installed.' + #13 +
+			     'You must have installed at least JDK or JRE, 11 or higher to continue setup.' + #13 +
+			     'Please install one from https://AdoptOpenJDK.com and then run this setup again.', mbInformation, MB_OK);
 		Result := true;
 	end;
 end;
