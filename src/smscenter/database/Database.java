@@ -77,7 +77,8 @@ public class Database {
         if (settings.isWindowsAuth())
             sb.append("integratedSecurity=true;trustServerCertificate=true;encrypt=true;");
         else
-            sb.append("user=").append(settings.getUser()).append(";").append("password=").append(settings.getPassword()).append(";");
+            sb.append("user=").append(settings.getUser()).append(";").append("password=").append(settings.getPassword()).append(";").
+               append("integratedSecurity=false;trustServerCertificate=true;encrypt=true;");
 
         connectString = sb.toString();
         
