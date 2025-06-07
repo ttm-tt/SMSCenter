@@ -1006,7 +1006,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        return list.toArray(new Match[list.size()]);
+        return list.toArray(Match[]::new);
     }
     
     
@@ -1080,7 +1080,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        return list.toArray(new Match[list.size()]);
+        return list.toArray(Match[]::new);
     }
     
     synchronized public Match[] getSchedulesFor(Set<Integer> plSet, int tsBefore, int tsAfter) {
@@ -1172,7 +1172,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        return list.toArray(new Match[list.size()]);
+        return list.toArray(Match[]::new);
     }
     
     synchronized public boolean addUpdateScheduleGroup(int grID) {
@@ -1335,7 +1335,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        return list.toArray(new Match[list.size()]);
+        return list.toArray(Match[]::new);
     }
     
     
@@ -1465,7 +1465,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return list.toArray(new Competition[0]);
+        return list.toArray(Competition[]::new);
     }
     
     synchronized public Group[] getGroups(Competition cp) {
@@ -1477,10 +1477,10 @@ public class Database {
         Connection conn;
         String sql = 
                 "SELECT " +
-                "       cp.cpID, cpName, cpDesc, cpType, " +
+                "       gr.cpID, cp.cpName, cpDesc, cpType, " +
                 "       grID, grName, grDesc, grStage, grModus " +
                 "  FROM GrList gr INNER JOIN CpList cp ON gr.cpID = cp.cpId " +
-                " WHERE cp.cpID = ? ORDER BY grStage, grName";
+                " WHERE gr.cpID = ? ORDER BY grStage, grName";
         
         try {
             if ( (conn = getConnection()) == null )
@@ -1513,7 +1513,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        return list.toArray(new Group[0]);
+        return list.toArray(Group[]::new);
     }
     
     
@@ -1853,7 +1853,7 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);                        
         }
             
-        return list.toArray(new GroupEntry[0]);
+        return list.toArray(GroupEntry[]::new);
     }
     
     
