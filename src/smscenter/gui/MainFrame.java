@@ -38,8 +38,8 @@ import smscenter.gui.settings.Settings;
  */
 public class MainFrame extends javax.swing.JFrame {
     
-    static final private String VERSION_STRING = "24.07";
-    static final private String COPYRIGHT_STRING ="(C) 2020 Christoph Theis";
+    static final private String VERSION_STRING = "25.06.01";
+    static final private String COPYRIGHT_STRING ="(C) 2025 Christoph Theis";
     
     smscenter.smsserver.SMSServer smsServer = null;
     smscenter.database.Database database = new smscenter.database.Database();  
