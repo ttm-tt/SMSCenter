@@ -1291,7 +1291,7 @@ public class Database {
                 "       LEFT OUTER JOIN smscenter_phones phoneX ON mt.plXplNr = phoneX.plNr " +
                 " WHERE cp.cpType = 1 AND scr.ts < DATEADD(second, " + (-delay) + ", CURRENT_TIMESTAMP) " +
                 "UNION " +
-                "SELECT gr.cpID, vp.cpName, cpDesc, cpType, " +                
+                "SELECT gr.cpID, cp.cpName, cpDesc, cpType, " +                
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
