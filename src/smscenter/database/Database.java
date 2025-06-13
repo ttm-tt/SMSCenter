@@ -899,7 +899,7 @@ public class Database {
         String sql = 
                 "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY scsID ASC) AS row FROM ( " +
                 "       SELECT " +
-                "       cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "       gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -925,7 +925,7 @@ public class Database {
                 statusFilter +
                 "UNION " +
                 "       SELECT " +
-                "       cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "       gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -1014,7 +1014,7 @@ public class Database {
         List<Match> list = new java.util.ArrayList<>();
         Connection conn;
         String sql = 
-                "SELECT cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "SELECT gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -1036,7 +1036,7 @@ public class Database {
                 "       LEFT OUTER JOIN smscenter_phones phoneX ON (mt.plXplNr % 10000) = phoneX.plNr " +
                 " WHERE cp.cpType = 1 AND scs.ts < DATEADD(second, " + (-delay) + ", CURRENT_TIMESTAMP) " +
                 "UNION " +
-                "SELECT cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "SELECT gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -1095,7 +1095,7 @@ public class Database {
         List<Match> list = new java.util.ArrayList<>();
         Connection conn;
         String sql = 
-                "SELECT cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "SELECT gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -1122,7 +1122,7 @@ public class Database {
                          ") AND " +
                 "       ((plAplNr % 10000) IN (" + sb.substring(2) + ") OR (plXplNr % 10000) IN (" + sb.substring(2) + ")) " +
                 "UNION " +
-                "SELECT cp.cpID, cp.cpName, cpDesc, cpType, " +
+                "SELECT gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
@@ -1269,7 +1269,7 @@ public class Database {
         List<Match> list = new java.util.ArrayList<>();
         Connection conn;
         String sql = 
-                "SELECT gr.cpID, cp.cpName, cpDesc, cpType, " +
+                "SELECT gr.cpID, gr.cpName, cpDesc, cpType, " +
                 "       gr.grID, grName, grDesc, grStage, grModus, " +
                 "       mt.mtNr, mtBestOf, mtTimeStamp, " +
                 "       mtTable, mtDateTime, mtResA, mtResX, " +
