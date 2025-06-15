@@ -1,4 +1,4 @@
-#define Version '25.06.03'
+#define Version '25.06.04'
 
 [Setup]
 AppName=SMSCenter
