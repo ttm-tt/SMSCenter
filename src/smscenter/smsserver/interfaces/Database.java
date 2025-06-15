@@ -551,7 +551,7 @@ public class Database extends Interface<Integer>
                         if (windowsAuth)
                             sb.append("integratedSecurity=true;trustServerCertificate=true;encrypt=true;");
                         else
-                            sb.append("user=").append(user).append(";").append("password=").append(pwd).append(";");
+                            sb.append("user=").append(user).append(";").append("password=").append(pwd).append(";").append("integratedSecurity=false;trustServerCertificate=true;encrypt=true;");
 
                         String url = sb.toString();
                         
