@@ -529,12 +529,12 @@ public class Database {
         sql += "WHERE 1 = 1";
         
         if (status != null && !status.isEmpty())
-            sql += "AND smscenter_phones.status = ? "; // '" + status + "' ";
+            sql += " AND smscenter_phones.status = ? "; // '" + status + "'";
         if (phone != null && !phone.isEmpty()) {
-            sql += "AND smscenter_phones.phone LIKE ?";
+            sql += " AND smscenter_phones.phone LIKE ?";
         }
         if (player != null && !player.isEmpty())
-            sql += "AND smscenter_phones.plNr = ? "; // " + player + " ";
+            sql += " AND smscenter_phones.plNr = ?"; // " + player + " ";
 
         try {
             if ( (conn = getConnection()) == null )
@@ -602,7 +602,7 @@ public class Database {
         if (status != null && !status.isEmpty())
             sql += "AND smscenter_phones.status = ? "; // '" + status + "' ";
         if (phone != null && !phone.isEmpty()) {
-            sql += "AND smscenter_phones.phone LIKE ?";
+            sql += "AND smscenter_phones.phone LIKE ? ";
         }
         if (player != null && !player.isEmpty())
             sql += "AND smscenter_phones.plNr = ? "; // " + player + " ";
