@@ -196,14 +196,14 @@ public class GroupsPanel extends BasePanel {
             }
         });
 
-        enableButton.setText(bundle.getString("Check")); // NOI18N
+        enableButton.setText(bundle.getString("Enable")); // NOI18N
         enableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableButtonActionPerformed(evt);
             }
         });
 
-        disableButton.setText(bundle.getString("Clear")); // NOI18N
+        disableButton.setText(bundle.getString("Disable")); // NOI18N
         disableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disableButtonActionPerformed(evt);
