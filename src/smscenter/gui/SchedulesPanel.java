@@ -202,6 +202,9 @@ public class SchedulesPanel extends BasePanel {
             if (mt.mtDateTime == null)
                 continue;
             
+            if (mt.mtDateTime.getHours() == 0 || mt.mtDateTime.getMinutes() == 0)
+                continue;
+            
             // If the match is the previous day, don't send SMS again,
             // we might just edit the matches
             if (compareDays(mt.mtDateTime, today) < 0)
@@ -211,22 +214,30 @@ public class SchedulesPanel extends BasePanel {
             if (mt.stA > 0 && mt.tmA == 0 || mt.stX > 0 && mt.tmX == 0)
                 continue;
             
-            // Weiter, wenn kein Spieler bekannt ist
+            // If no player / pair is known: don't send SMS
             if ( (mt.plA == null || mt.plA.plNr <= 0) && (mt.plX == null || mt.plX.plNr <= 0) )
                 continue;
             
-            // Nur ein Spieler bekannt oder noch kein Tisch: 
-            // SMS senden, wenn Spiel innerhalb 30 Minuten beginnt 
-            // oder am naechsten Tag ist. Ansonsten erstmal stehen lassen
-            if ( mt.plA == null || mt.plA.plNr <= 0 || mt.plX == null || mt.plX.plNr <= 0 || 
-                 (mt.mtDateTime.getHours() == 0 && mt.mtDateTime.getMinutes() == 0) || mt.mtTable == 0 ) {
+            // Only at most one player / pair know:
+            // send SMS if the match is scheduled soon or next day.
+            // Else keep it and wait for updates            
+            if ( mt.plA == null || mt.plA.plNr <= 0 || mt.plX == null || mt.plX.plNr <= 0 ) {
                 if ( mt.mtDateTime.getTime() > System.currentTimeMillis() + 2 * reminderCuttoff &&
-                     compareDays(mt.mtDateTime, today) == 0 ) {
+                     compareDays(mt.mtDateTime, today) <= 0 ) {
                     toDelete.remove(mt.scsID);
                     continue;
                 }   
             }
             
+            // Same if no table is scheduled
+            if ( mt.mtTable == 0 ) {
+                if ( mt.mtDateTime.getTime() > System.currentTimeMillis() + 2 * reminderCuttoff &&
+                     compareDays(mt.mtDateTime, today) <= 0 ) {
+                    toDelete.remove(mt.scsID);
+                    continue;
+                }   
+            }
+
             if (mt.scsID != 0) {
                 toDelete.remove(mt.scsID);
                 toUpdate.add(mt.scsID);
