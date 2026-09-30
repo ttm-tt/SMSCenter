@@ -12,11 +12,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Handler;
@@ -40,6 +42,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     static final private String VERSION_STRING = "26.09.02";
     static final private String COPYRIGHT_STRING ="(C) 2026 Christoph Theis";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("smscenter/gui/resources/SMSCenter"); // NOI18N
+    static final private String SMSCTR = bundle.getString("SMS Center");
     
     smscenter.smsserver.SMSServer smsServer = null;
     smscenter.database.Database database = new smscenter.database.Database();  
@@ -110,6 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
         smsserverMenuItem = new javax.swing.JCheckBoxMenuItem();
         helpMenu = new javax.swing.JMenu();
         manualMenuItem = new javax.swing.JMenuItem();
+        checkUpdateMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("smscenter/gui/resources/SMSCenter"); // NOI18N
@@ -227,6 +232,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         helpMenu.add(manualMenuItem);
 
+        checkUpdateMenuItem.setText(bundle.getString("MainFrame.jMenuItemCheckUpdate.text")); // NOI18N
+        checkUpdateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUpdateMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(checkUpdateMenuItem);
+
         aboutMenuItem.setText(bundle.getString("About")); // NOI18N
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +294,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         updateInterval = Settings.readGeneralSettings(props).getUpdateInterval();
         updateDelay = Settings.readGeneralSettings(props).getUpdateDelay();
+        maxMsgs = Settings.readGeneralSettings(props).getMaxMsgs();
                         
         phonePanel = new PhonePanel(database);
         incomingPanel = new IncomingPanel(database);
@@ -706,6 +720,44 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_smsConfigurationMenuItemActionPerformed
 
+    private void checkUpdateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUpdateMenuItemActionPerformed
+        java.io.InputStream is = null;
+        try {
+            java.net.URL url = new java.net.URL("http://downloads.ttm.co.at/smscenter/current.txt");
+            is = url.openStream();
+            java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(is));
+            String current = br.readLine();
+            if (current.compareTo(VERSION_STRING) > 0) {
+                javax.swing.JPanel panel = new javax.swing.JPanel();
+                panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.Y_AXIS));
+                panel.add(new javax.swing.JLabel(bundle.getString("A new version is available.")));
+                panel.add(new javax.swing.JLabel(bundle.getString("Click OK to download and install it.")));
+
+                if (javax.swing.JOptionPane.showConfirmDialog(this, panel, 
+                        MessageFormat.format((String) bundle.getString("A new version of {0} is available."), SMSCTR), 
+                        javax.swing.JOptionPane.OK_CANCEL_OPTION) == javax.swing.JOptionPane.OK_OPTION)
+                java.awt.Desktop.getDesktop().browse(new java.net.URI("http://downloads.ttm.co.at/smscenter/install.exe"));
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        MessageFormat.format((String) bundle.getString("You are using the current version of {0}."), SMSCTR));
+            }
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            // Auch wenn eine FileNotFoundException ist liefert ex.getLocalisedMessage nur die URL und keinen besseren Fehler.
+            String msg = bundle.getString("Could not determine current version.");
+            javax.swing.JOptionPane.showMessageDialog(this, msg,  "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (is != null)
+                    is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_checkUpdateMenuItemActionPerformed
+
     @Override
     public List<java.awt.Image> getIconImages() {
         // Icon from http://www.comfi.com/telecom-icons/
@@ -765,6 +817,7 @@ public class MainFrame extends javax.swing.JFrame {
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JMenuItem checkUpdateMenuItem;
     private javax.swing.JMenuItem configurationMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JLabel jLabel1;
@@ -794,6 +847,19 @@ public class MainFrame extends javax.swing.JFrame {
     private PositionsPanel positionPanel;
     private GroupsPanel groupsPanel;
     
-    static int updateInterval = 5;
-    static int updateDelay = 60;
+    private static int updateInterval = 5;
+    private static int updateDelay = 60;
+    private static int maxMsgs = 5;
+
+    public static int getUpdateInterval() {
+        return updateInterval;
+    }
+
+    public static int getUpdateDelay() {
+        return updateDelay;
+    }
+
+    public static int getMaxMsgs() {
+        return maxMsgs;
+    }
 }

@@ -30,6 +30,7 @@ public class GeneralSettings extends Settings {
         setReminderTime(Integer.parseInt(getProperty(props, prefix, "reminder_time", "15")));
         setReminderTimeNextDay(Integer.parseInt(getProperty(props, prefix, "reminder_time_next_day", "60")));
         setReminderCutoff(Integer.parseInt(getProperty(props, prefix, "reminder_cutoff", "90")));
+        setMaxMsgs(Integer.parseInt(getProperty(props, prefix, "max_msgs", "5")));
     }
     
     
@@ -47,6 +48,7 @@ public class GeneralSettings extends Settings {
         setProperty(props, prefix, "reminder_time", "" + getReminderTime());
         setProperty(props, prefix, "reminder_time_next_day", "" + getReminderTimeNextDay());
         setProperty(props, prefix, "reminder_cutoff", "" + getReminderCutoff());
+        setProperty(props, prefix, "max_msgs", "" + getMaxMsgs());
     }
     
     private int updateInterval;
@@ -63,6 +65,7 @@ public class GeneralSettings extends Settings {
     private int    reminder_cutoff;   // Ab wann eine Erinnerung schicken
     private int    reminder_time;     // Wieviel frueber die Erinnerung schicken
     private int    reminder_time_next_day;  // Dto., wenn Spiel am naechsten Tag
+    private int    maxMsgs = 5;       // Limit SMS per day and player
 
     /**
      * @return the outboundInterval
@@ -228,6 +231,14 @@ public class GeneralSettings extends Settings {
 
     public void setReminderTimeNextDay(int reminder_time_next_day) {
         this.reminder_time_next_day = reminder_time_next_day;
+    }
+
+    public int getMaxMsgs() {
+        return maxMsgs;
+    }
+
+    public void setMaxMsgs(int maxMsgs) {
+        this.maxMsgs = maxMsgs;
     }
     
 }

@@ -34,14 +34,14 @@ abstract class BasePanel extends javax.swing.JPanel {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, t);                                
             }   
             
-            timer.schedule(new UpdateTimerClass(), MainFrame.updateInterval * 1000);
+            timer.schedule(new UpdateTimerClass(), MainFrame.getUpdateInterval() * 1000);
         }        
     }
     
     protected BasePanel(Database database) {
         this.database = database;
         
-        timer.schedule(new UpdateTimerClass(), MainFrame.updateInterval * 1000);
+        timer.schedule(new UpdateTimerClass(), MainFrame.getUpdateInterval() * 1000);
     }
     
     abstract public void update();

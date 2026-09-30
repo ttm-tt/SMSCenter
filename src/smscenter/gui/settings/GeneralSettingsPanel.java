@@ -34,7 +34,8 @@ public class GeneralSettingsPanel extends SettingsPanel {
         deleteAfterReceiveCheckbox.setSelected(generalSettings.isDeleteAfterProcessing());
         reminderTimeSpinner.setValue(generalSettings.getReminderTime());
         reminderTimeNextDaySpinner.setValue(generalSettings.getReminderTimeNextDay());
-        ReminderCuttoffSpinner.setValue(generalSettings.getReminderCutoff());
+        reminderCuttoffSpinner.setValue(generalSettings.getReminderCutoff());
+        maxMsgSpinner.setValue(generalSettings.getMaxMsgs());
     }
     
     
@@ -48,7 +49,8 @@ public class GeneralSettingsPanel extends SettingsPanel {
         generalSettings.setDeleteAfterProcessing(deleteAfterReceiveCheckbox.isSelected());
         generalSettings.setReminderTime((Integer) reminderTimeSpinner.getValue());
         generalSettings.setReminderTimeNextDay((Integer) reminderTimeNextDaySpinner.getValue());
-        generalSettings.setReminderCutoff((Integer) ReminderCuttoffSpinner.getValue());
+        generalSettings.setReminderCutoff((Integer) reminderCuttoffSpinner.getValue());
+        generalSettings.setMaxMsgs((Integer) maxMsgSpinner.getValue());
         
         Settings.writeGeneralSettings(generalSettings, props);
     }
@@ -77,7 +79,9 @@ public class GeneralSettingsPanel extends SettingsPanel {
         jLabel8 = new javax.swing.JLabel();
         reminderTimeNextDaySpinner = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
-        ReminderCuttoffSpinner = new javax.swing.JSpinner();
+        reminderCuttoffSpinner = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        maxMsgSpinner = new javax.swing.JSpinner();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("smscenter/gui/resources/SMSCenter"); // NOI18N
         jLabel1.setText(bundle.getString("Inbound interval:")); // NOI18N
@@ -102,46 +106,48 @@ public class GeneralSettingsPanel extends SettingsPanel {
 
         jLabel9.setText("Reminder cuttoff time (m):");
 
+        jLabel5.setText("Max. SMS / player / day");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(sendAsyncCheckbox)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inboundIntervalSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(updateIntervalSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reminderTimeSpinner)
+                    .addComponent(reminderCuttoffSpinner)
+                    .addComponent(maxMsgSpinner))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(inboundIntervalSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                            .addComponent(updateIntervalSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reminderTimeSpinner)
-                            .addComponent(ReminderCuttoffSpinner))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel2))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(outboundIntervalSpinner)
-                            .addComponent(updateDelaySpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                            .addComponent(reminderTimeNextDaySpinner)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sendAsyncCheckbox)
-                        .addGap(309, 309, 309)
-                        .addComponent(deleteAfterReceiveCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel2)
+                            .addComponent(deleteAfterReceiveCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(outboundIntervalSpinner)
+                    .addComponent(updateDelaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(reminderTimeNextDaySpinner))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ReminderCuttoffSpinner, inboundIntervalSpinner, reminderTimeSpinner, updateIntervalSpinner});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inboundIntervalSpinner, maxMsgSpinner, reminderCuttoffSpinner, reminderTimeSpinner, updateIntervalSpinner});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {outboundIntervalSpinner, reminderTimeNextDaySpinner, updateDelaySpinner});
 
@@ -169,27 +175,33 @@ public class GeneralSettingsPanel extends SettingsPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(ReminderCuttoffSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(reminderCuttoffSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(maxMsgSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendAsyncCheckbox)
                     .addComponent(deleteAfterReceiveCheckbox))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSpinner ReminderCuttoffSpinner;
     private javax.swing.JCheckBox deleteAfterReceiveCheckbox;
     private javax.swing.JSpinner inboundIntervalSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JSpinner maxMsgSpinner;
     private javax.swing.JSpinner outboundIntervalSpinner;
+    private javax.swing.JSpinner reminderCuttoffSpinner;
     private javax.swing.JSpinner reminderTimeNextDaySpinner;
     private javax.swing.JSpinner reminderTimeSpinner;
     private javax.swing.JCheckBox sendAsyncCheckbox;

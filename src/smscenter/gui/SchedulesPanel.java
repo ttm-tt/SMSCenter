@@ -14,6 +14,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import smscenter.database.Database;
 import smscenter.database.Match;
 import smscenter.database.Player;
@@ -103,17 +105,16 @@ public class SchedulesPanel extends BasePanel {
     
     
     public void update(Set<Integer> plSet) {
-        Match[] schedules = database.getSchedulesFor(plSet, MainFrame.updateDelay, 15 * 60);
+        Match[] schedules = database.getSchedulesFor(plSet, MainFrame.getUpdateDelay(), 15 * 60);
         sendMessages(schedules, plSet);
     }
     
     synchronized public void sendMessages() {
-        Match[] schedules = database.getUpdateSchedules(MainFrame.updateDelay);
+        Match[] schedules = database.getUpdateSchedules(MainFrame.getUpdateDelay());
         
         if (schedules == null)
             return;
         
-        List<Object[]> list = new java.util.ArrayList<>();
         Set<Integer> plSet = new java.util.HashSet<>();
                 
         // Liste der Spieler generieren
@@ -126,6 +127,15 @@ public class SchedulesPanel extends BasePanel {
                 plSet.add(mt.plX.plNr);
             if (mt.plY != null)
                 plSet.add(mt.plY.plNr);
+        }
+        
+        int maxMsgs = MainFrame.getMaxMsgs();
+        int pc = database.getPhoneCount(null, null, null);
+        int tc = database.getSentTodayCount(null);
+        
+        if (maxMsgs * pc <= tc + plSet.size()) {      
+            Logger.getLogger(MainFrame.class.getName()).log(Level.WARNING, "Max SMS per player for today exhausted");                            
+            return;
         }
         
         sendMessages(schedules, plSet);

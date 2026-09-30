@@ -14,10 +14,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import smscenter.database.Database;
 import smscenter.database.Match;
 import smscenter.database.Player;
-import smscenter.gui.settings.Settings;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ResultsPanel extends BasePanel {
     
     @Override
     public void update() {
-        Match[] results = database.getUpdateResults(MainFrame.updateDelay);
+        Match[] results = database.getUpdateResults(MainFrame.getUpdateDelay());
         List<Object[]> list = new java.util.ArrayList<>();
         Set<Integer> plSet = new java.util.HashSet<>();
         
@@ -59,6 +60,15 @@ public class ResultsPanel extends BasePanel {
         }
         
         updateRows(list, resultsTable);
+        
+        int maxMsgs = MainFrame.getMaxMsgs();
+        int pc = database.getPhoneCount(null, null, null);
+        int tc = database.getSentTodayCount(null);
+        
+        if (maxMsgs * pc <= tc + plSet.size()) {      
+            Logger.getLogger(MainFrame.class.getName()).log(Level.WARNING, "Max SMS per player for today exhausted");                            
+            return;
+        }
         
         if ( isSMSServerRunning() )
             sendMessages(results, plSet);

@@ -370,6 +370,36 @@ public class Database {
         return 0;
     }
     
+    
+    synchronized public int getSentTodayCount(String player) {
+        Connection conn;
+        String sql = 
+                "SELECT COUNT(*) FROM smsserver_out " +
+                "WHERE sent_date >= CAST(CURRENT_TIMESTAMP AS DATE) ";
+                
+        try {
+            if ( (conn = getConnection()) == null )
+                return 0;
+            
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (!rs.next())
+                        return 0;
+                    
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+
+        return 0;
+    }
+    
+    
     synchronized public boolean setMessageStatus(int id, String status) {
         Connection conn;
         String sql = "UPDATE smsserver_out SET status = ? WHERE id = ?";
