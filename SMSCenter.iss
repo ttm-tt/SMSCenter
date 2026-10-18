@@ -1,4 +1,10 @@
-#define Version '26.09.02'
+#define VersionFile FileOpen(AddBackslash(SourcePath) + "current.txt")
+#if !VersionFile
+  #error Cannot open current.txt
+#endif
+#define Version Trim(FileRead(VersionFile))
+#expr FileClose(VersionFile)
+#undef VersionFile
 
 [Setup]
 AppName=SMSCenter
